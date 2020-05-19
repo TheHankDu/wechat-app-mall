@@ -13,21 +13,21 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
 
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     AUTH.checkHasLogined().then(isLogined => {
       this.setData({
         wxlogin: isLogined
@@ -37,7 +37,7 @@ Page({
       }
     })
   },
-  doneShow: function() {
+  doneShow: function () {
     setTimeout(() => {
       this.calendar.jump()
     }, 1000)
@@ -95,5 +95,23 @@ Page({
         }],
       });
     })
+  },
+  cancelLogin() {
+    this.setData({
+      wxlogin: true
+    })
+    wx.navigateBack({
+      delta: 1
+    })
+  },
+  processLogin(e) {
+    if (!e.detail.userInfo) {
+      wx.showToast({
+        title: '已取消',
+        icon: 'none',
+      })
+      return;
+    }
+    AUTH.register(this);
   }
 })
